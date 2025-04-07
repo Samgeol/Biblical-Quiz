@@ -894,7 +894,258 @@ const questions = [
     question: "Quem foi o profeta que anunciou o julgamento contra os filisteus?",
     options: ["Jeremias", "Ezequiel", "Isaías", "Amós"],
     answer: "Jeremias"
-  }
+  },
+
+  {
+      question: "Qual era o nome do monte onde Moisés recebeu os Dez Mandamentos?",
+      options: ["Sinai", "Horebe", "Moriá", "Nebo"],
+      answer: "Sinai"
+    },
+    {
+      question: "Quem foi o pai de Jacó e Esaú?",
+      options: ["Isaque", "Abraão", "Ló", "Labão"],
+      answer: "Isaque"
+    },
+    {
+      question: "Qual era o nome da esposa de Jacó que ele mais amava?",
+      options: ["Raquel", "Lia", "Bila", "Zilpa"],
+      answer: "Raquel"
+    },
+    {
+      question: "Quem foi o filho de Davi que sucedeu ao trono de Israel?",
+      options: ["Salomão", "Absalão", "Adonias", "Amnom"],
+      answer: "Salomão"
+    },
+    {
+      question: "Qual era o nome do rio que os israelitas atravessaram para entrar em Canaã?",
+      options: ["Jordão", "Nilo", "Eufrates", "Tigre"],
+      answer: "Jordão"
+    },
+    {
+      question: "Quem foi o juiz que destruiu o templo de Dagom ao derrubar suas colunas?",
+      options: ["Sansão", "Gideão", "Jefté", "Barak"],
+      answer: "Sansão"
+    },
+    {
+      question: "Qual era o nome da cidade que caiu quando os israelitas marcharam ao seu redor?",
+      options: ["Jericó", "Ai", "Hebron", "Betel"],
+      answer: "Jericó"
+    },
+    {
+      question: "Quem foi o profeta que ungiu Davi como rei de Israel?",
+      options: ["Samuel", "Natã", "Gade", "Elias"],
+      answer: "Samuel"
+    },
+    {
+      question: "Qual era o nome da mulher que se tornou rainha após Vasti ser deposta?",
+      options: ["Ester", "Débora", "Rute", "Abigail"],
+      answer: "Ester"
+    },
+    {
+      question: "Quem foi o discípulo que substituiu Judas Iscariotes entre os apóstolos?",
+      options: ["Matias", "Barnabé", "Silas", "Estevão"],
+      answer: "Matias"
+    },
+    {
+      question: "Qual era o nome do monte onde Jesus foi transfigurado?",
+      options: ["Tabor", "Sinai", "Carmelo", "das Oliveiras"],
+      answer: "Tabor"
+    },
+    {
+      question: "Quem foi o apóstolo que escreveu o livro de Apocalipse?",
+      options: ["João", "Paulo", "Pedro", "Tiago"],
+      answer: "João"
+    },
+    {
+      question: "Qual era o nome do homem que ofereceu seu túmulo para sepultar Jesus?",
+      options: ["José de Arimateia", "Nicodemos", "Simão", "Zaqueu"],
+      answer: "José de Arimateia"
+    },
+    {
+      question: "Quem foi o profeta que predisse que Jesus nasceria de uma virgem?",
+      options: ["Isaías", "Jeremias", "Ezequiel", "Daniel"],
+      answer: "Isaías"
+    },
+    {
+      question: "Qual era o nome da cidade onde Jonas pregou após sair do peixe?",
+      options: ["Nínive", "Társis", "Jope", "Damasco"],
+      answer: "Nínive"
+    },
+    {
+      question: "Quem foi o rei de Israel que dançou diante da Arca da Aliança?",
+      options: ["Davi", "Saul", "Salomão", "Roboão"],
+      answer: "Davi"
+    },
+    {
+      question: "Qual era o nome da mãe de Samuel, que o dedicou ao Senhor?",
+      options: ["Ana", "Penina", "Miriã", "Débora"],
+      answer: "Ana"
+    },
+    {
+      question: "Quem foi o irmão de José que o reconheceu no Egito?",
+      options: ["Judá", "Rúben", "Simeão", "Levi"],
+      answer: "Judá"
+    },
+    {
+      question: "Qual era o nome do monte onde Abraão quase sacrificou Isaque?",
+      options: ["Moriá", "Sinai", "Horebe", "Nebo"],
+      answer: "Moriá"
+    },
+    {
+      question: "Quem foi a mulher que deu à luz Sansão?",
+      options: ["Manoá", "Dalila", "Jael", "Débora"],
+      answer: "Manoá"
+    },
+    {
+      question: "Qual era o nome do profeta que predisse a morte de Acabe em batalha?",
+      options: ["Miquéias", "Elias", "Eliseu", "Natã"],
+      answer: "Miquéias"
+    },
+    {
+      question: "Quem foi o rei de Judá que reparou o templo com a ajuda de Joiada?",
+      options: ["Joás", "Ezequias", "Josias", "Asa"],
+      answer: "Joás"
+    },
+    {
+      question: "Qual era o nome da cidade onde Paulo foi preso após um tumulto?",
+      options: ["Jerusalém", "Éfeso", "Filipas", "Antioquia"],
+      answer: "Jerusalém"
+    },
+    {
+      question: "Quem foi o apóstolo que acompanhou Paulo em muitas de suas viagens?",
+      options: ["Barnabé", "Pedro", "Tiago", "André"],
+      answer: "Barnabé"
+    },
+    {
+      question: "Qual era o nome da mãe de Ismael, serva de Sara?",
+      options: ["Agar", "Rebeca", "Quetura", "Zilpa"],
+      answer: "Agar"
+    },
+    {
+      question: "Quem foi o profeta que chamou fogo do céu para consumir um sacrifício?",
+      options: ["Elias", "Eliseu", "Isaías", "Jeremias"],
+      answer: "Elias"
+    },
+    {
+      question: "Qual era o nome do rei que pediu sabedoria a Deus em um sonho?",
+      options: ["Salomão", "Davi", "Saul", "Josias"],
+      answer: "Salomão"
+    },
+    {
+      question: "Quem foi o homem que liderou os israelitas na conquista de Canaã?",
+      options: ["Josué", "Moisés", "Calebe", "Arão"],
+      answer: "Josué"
+    },
+    {
+      question: "Qual era o nome da cidade natal de Davi?",
+      options: ["Belém", "Jerusalém", "Hebron", "Siquém"],
+      answer: "Belém"
+    },
+    {
+      question: "Quem foi a mulher que ofereceu água a Davi e seus homens?",
+      options: ["Abigail", "Mical", "Bate-Seba", "Tamar"],
+      answer: "Abigail"
+    },
+    {
+      question: "Qual era o nome do profeta que foi contemporâneo de Jeremias no exílio?",
+      options: ["Ezequiel", "Daniel", "Isaías", "Oséias"],
+      answer: "Ezequiel"
+    },
+    {
+      question: "Quem foi o rei de Judá que enfrentou Senaqueribe da Assíria?",
+      options: ["Ezequias", "Josias", "Manassés", "Acaz"],
+      answer: "Ezequias"
+    },
+    {
+      question: "Qual era o nome do irmão de Miriã e Moisés?",
+      options: ["Arão", "Josué", "Calebe", "Hur"],
+      answer: "Arão"
+    },
+    {
+      question: "Quem foi o profeta que repreendeu Israel por adorar ídolos em Betel?",
+      options: ["Amós", "Oséias", "Joel", "Miquéias"],
+      answer: "Amós"
+    },
+    {
+      question: "Qual era o nome do rei que ofereceu presentes a Jesus ao nascer?",
+      options: ["Herodes", "Magos", "Pilatos", "César"],
+      answer: "Magos"
+    },
+    {
+      question: "Quem foi o discípulo que perguntou a Jesus sobre o fim dos tempos?",
+      options: ["Pedro", "João", "Tiago", "André"],
+      answer: "Pedro"
+    },
+    {
+      question: "Qual era o nome da cidade onde Jesus transformou água em vinho?",
+      options: ["Caná", "Nazaré", "Cafarnaum", "Betânia"],
+      answer: "Caná"
+    },
+    {
+      question: "Quem foi o profeta que anunciou a reconstrução de Jerusalém?",
+      options: ["Ageu", "Zacarias", "Malaquias", "Joel"],
+      answer: "Ageu"
+    },
+    {
+      question: "Qual era o nome do filho de Abraão com Quetura?",
+      options: ["Midiã", "Ismael", "Isaque", "Zinri"],
+      answer: "Midiã"
+    },
+    {
+      question: "Quem foi o juiz que derrotou os filisteus com uma queixada de jumento?",
+      options: ["Sansão", "Gideão", "Jefté", "Otniel"],
+      answer: "Sansão"
+    },
+    {
+      question: "Qual era o nome da cidade onde Elias ressuscitou o filho de uma viúva?",
+      options: ["Sarepta", "Nínive", "Jericó", "Betel"],
+      answer: "Sarepta"
+    },
+    {
+      question: "Quem foi o apóstolo que escreveu epístolas às igrejas de Corinto?",
+      options: ["Paulo", "Pedro", "João", "Tiago"],
+      answer: "Paulo"
+    },
+    {
+      question: "Qual era o nome do monte onde Jesus orou antes de ser preso?",
+      options: ["Getsêmani", "Tabor", "Sinai", "Carmelo"],
+      answer: "Getsêmani"
+    },
+    {
+      question: "Quem foi o profeta que predisse a vinda de João Batista?",
+      options: ["Malaquias", "Isaías", "Jeremias", "Ezequiel"],
+      answer: "Malaquias"
+    },
+    {
+      question: "Qual era o nome da esposa de Elcana que rivalizava com Ana?",
+      options: ["Penina", "Miriã", "Débora", "Raquel"],
+      answer: "Penina"
+    },
+    {
+      question: "Quem foi o rei de Judá que enfrentou o faraó Neco em Megido?",
+      options: ["Josias", "Ezequias", "Joás", "Asa"],
+      answer: "Josias"
+    },
+    {
+      question: "Qual era o nome do rio onde Naamã foi curado da lepra?",
+      options: ["Jordão", "Nilo", "Eufrates", "Abana"],
+      answer: "Jordão"
+    },
+    {
+      question: "Quem foi o discípulo que Jesus chamou de 'pedra'?",
+      options: ["Pedro", "Tiago", "João", "André"],
+      answer: "Pedro"
+    },
+    {
+      question: "Qual era o nome da cidade onde Paulo pregou sobre o 'Deus Desconhecido'?",
+      options: ["Atenas", "Corinto", "Éfeso", "Roma"],
+      answer: "Atenas"
+    },
+    {
+      question: "Quem foi o profeta que viu o Senhor sentado em um trono elevado?",
+      options: ["Isaías", "Ezequiel", "Daniel", "Jeremias"],
+      answer: "Isaías"
+    }
 ];
 
 let currentQuestion = 0;
@@ -965,6 +1216,15 @@ function updateTimer() {
   timerDisplay.textContent = `${minutes}:${seconds}`;
 }
 
+function shuffleArray(array) {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 function showQuestion() {
   if (currentQuestion >= window.selectedQuestions.length) {
     endGame();
@@ -975,7 +1235,9 @@ function showQuestion() {
   questionText.textContent = q.question;
   optionsContainer.innerHTML = '';
 
-  q.options.forEach(option => {
+  const shuffledOptions = shuffleArray(q.options);
+
+  shuffledOptions.forEach(option => {
     const btn = document.createElement('button');
     btn.textContent = option;
     btn.onclick = () => selectAnswer(btn, q.answer);
