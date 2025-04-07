@@ -483,6 +483,417 @@ const questions = [
     question: "Qual era o nome do carcereiro que se converteu após o terremoto?",
     options: ["Carcereiro de Filipos", "Cornélio", "Júlio", "Félix"],
     answer: "Carcereiro de Filipos"
+  },
+  // Início das 100 novas perguntas de nível difícil e muito difícil
+  {
+    question: "Qual era o nome do sacerdote que abençoou Abraão após a batalha dos reis?",
+    options: ["Melquisedeque", "Arão", "Eli", "Fineias"],
+    answer: "Melquisedeque"
+  },
+  {
+    question: "Quem foi o filho de Davi que se rebelou contra ele e morreu pendurado em uma árvore?",
+    options: ["Absalão", "Salomão", "Adonias", "Amnom"],
+    answer: "Absalão"
+  },
+  {
+    question: "Qual era o nome do gigante filisteu que tinha irmãos também gigantes?",
+    options: ["Golias", "Isbi-Benobe", "Laquis", "Sama"],
+    answer: "Golias"
+  },
+  {
+    question: "Quem foi o profeta que previu que um rei chamado Josias queimaria ossos sobre o altar?",
+    options: ["Homem de Deus de Judá", "Elias", "Eliseu", "Samuel"],
+    answer: "Homem de Deus de Judá"
+  },
+  {
+    question: "Qual era o nome do rei de Israel que foi ferido por uma flecha perdida em Ramote-Gileade?",
+    options: ["Acabe", "Jeú", "Jeroboão", "Omri"],
+    answer: "Acabe"
+  },
+  {
+    question: "Quem foi o rei de Judá que teve seus olhos arrancados após ver seus filhos mortos?",
+    options: ["Zedequias", "Jeoaquim", "Joaquim", "Manassés"],
+    answer: "Zedequias"
+  },
+  {
+    question: "Qual era o nome do profeta que foi jogado em uma cisterna por ordem do rei Zedequias?",
+    options: ["Jeremias", "Isaías", "Ezequiel", "Daniel"],
+    answer: "Jeremias"
+  },
+  {
+    question: "Quem foi o escriba que leu o Livro da Lei ao povo na praça após o exílio?",
+    options: ["Esdras", "Neemias", "Baruque", "Zorobabel"],
+    answer: "Esdras"
+  },
+  {
+    question: "Qual era o nome do rei assírio que conquistou o Reino do Norte de Israel?",
+    options: ["Salmanasar", "Senaqueribe", "Tiglate-Pileser", "Nabucodonosor"],
+    answer: "Salmanasar"
+  },
+  {
+    question: "Quem foi o rei babilônico que destruiu Jerusalém e o templo de Salomão?",
+    options: ["Nabucodonosor", "Belsazar", "Dario", "Ciro"],
+    answer: "Nabucodonosor"
+  },
+  {
+    question: "Qual era o nome do eunuco que resgatou Jeremias da cisterna?",
+    options: ["Ebede-Meleque", "Baruque", "Gedalias", "Seraías"],
+    answer: "Ebede-Meleque"
+  },
+  {
+    question: "Quem foi o profeta que escreveu lamentações após a destruição de Jerusalém?",
+    options: ["Jeremias", "Ezequiel", "Daniel", "Isaías"],
+    answer: "Jeremias"
+  },
+  {
+    question: "Qual era o nome do rei persa que permitiu a reconstrução do templo em Jerusalém?",
+    options: ["Dario", "Ciro", "Assuero", "Artaxerxes"],
+    answer: "Dario"
+  },
+  {
+    question: "Quem foi o profeta que desafiou os sacerdotes de Baal e Asherah em Samaria?",
+    options: ["Elias", "Eliseu", "Oséias", "Miquéias"],
+    answer: "Elias"
+  },
+  {
+    question: "Qual era o nome do general sírio curado da lepra por Eliseu?",
+    options: ["Naamã", "Hazael", "Ben-Hadade", "Geazi"],
+    answer: "Naamã"
+  },
+  {
+    question: "Quem foi o rei de Israel que matou Acabe e Jezabel cumprindo a profecia?",
+    options: ["Jeú", "Jeroboão", "Baasa", "Omri"],
+    answer: "Jeú"
+  },
+  {
+    question: "Qual era o nome do filho de Saul que reinou por dois anos em Israel?",
+    options: ["Isbosete", "Jônatas", "Mefibosete", "Abinadabe"],
+    answer: "Isbosete"
+  },
+  {
+    question: "Quem foi o neto de Saul que Davi poupou por amor a Jônatas?",
+    options: ["Mefibosete", "Isbosete", "Abinadabe", "Malquisua"],
+    answer: "Mefibosete"
+  },
+  {
+    question: "Qual era o nome do sacerdote que serviu no tabernáculo em Siló?",
+    options: ["Eli", "Samuel", "Fineias", "Hofni"],
+    answer: "Eli"
+  },
+  {
+    question: "Quem foi o juiz de Israel que derrotou os midianitas com 300 homens?",
+    options: ["Gideão", "Sansão", "Jefté", "Barak"],
+    answer: "Gideão"
+  },
+  {
+    question: "Qual era o nome do rei moabita que sacrificou seu filho na muralha?",
+    options: ["Mesa", "Eglom", "Balac", "Seom"],
+    answer: "Mesa"
+  },
+  {
+    question: "Quem foi o profeta que viu uma visão do trono de Deus com quatro seres viventes?",
+    options: ["Ezequiel", "Isaías", "Daniel", "João"],
+    answer: "Ezequiel"
+  },
+  {
+    question: "Qual era o nome do rei edomita que recusou passagem aos israelitas no deserto?",
+    options: ["Hadade", "Seom", "Ogue", "Balac"],
+    answer: "Hadade"
+  },
+  {
+    question: "Quem foi o rei de Judá que removeu os altares pagãos e foi elogiado por Deus?",
+    options: ["Ezequias", "Josias", "Asa", "Joás"],
+    answer: "Ezequias"
+  },
+  {
+    question: "Qual era o nome do profeta que confrontou Acabe por roubar a vinha de Nabote?",
+    options: ["Elias", "Eliseu", "Miquéias", "Natã"],
+    answer: "Elias"
+  },
+  {
+    question: "Quem foi o rei de Israel que construiu Samaria como capital?",
+    options: ["Omri", "Acabe", "Jeroboão", "Baasa"],
+    answer: "Omri"
+  },
+  {
+    question: "Qual era o nome do sacerdote que coroou Joás como rei de Judá?",
+    options: ["Joiada", "Zadoque", "Abiatar", "Esdras"],
+    answer: "Joiada"
+  },
+  {
+    question: "Quem foi o profeta que previu a queda de Jerusalém para os caldeus?",
+    options: ["Jeremias", "Ezequiel", "Isaías", "Daniel"],
+    answer: "Jeremias"
+  },
+  {
+    question: "Qual era o nome do rei de Judá que foi morto por seus servos em conspiração?",
+    options: ["Amom", "Manassés", "Acaz", "Jotão"],
+    answer: "Amom"
+  },
+  {
+    question: "Quem foi o profeta que viu uma visão de um rolo voador?",
+    options: ["Zacarias", "Ezequiel", "Daniel", "Isaías"],
+    answer: "Zacarias"
+  },
+  {
+    question: "Qual era o nome do rei persa que ordenou a reconstrução de Jerusalém?",
+    options: ["Artaxerxes", "Ciro", "Dario", "Assuero"],
+    answer: "Artaxerxes"
+  },
+  {
+    question: "Quem foi o profeta que previu a destruição de Edom?",
+    options: ["Obadias", "Naum", "Habacuque", "Sofonias"],
+    answer: "Obadias"
+  },
+  {
+    question: "Qual era o nome do rei de Judá que fez aliança com o Egito contra a Babilônia?",
+    options: ["Joaquim", "Zedequias", "Jeoaquim", "Josias"],
+    answer: "Joaquim"
+  },
+  {
+    question: "Quem foi o profeta que viu uma visão de um cesto de frutos maduros?",
+    options: ["Amós", "Oséias", "Joel", "Miquéias"],
+    answer: "Amós"
+  },
+  {
+    question: "Qual era o nome do rei de Israel que caiu de uma janela e morreu?",
+    options: ["Acazias", "Jeorão", "Jeroboão", "Baasa"],
+    answer: "Acazias"
+  },
+  {
+    question: "Quem foi o profeta que repreendeu Davi por contar o povo?",
+    options: ["Gade", "Natã", "Samuel", "Aias"],
+    answer: "Gade"
+  },
+  {
+    question: "Qual era o nome do rei filisteu que abrigou Davi em Ziclague?",
+    options: ["Aquis", "Abimeleque", "Aitofel", "Ainã"],
+    answer: "Aquis"
+  },
+  {
+    question: "Quem foi o rei de Judá que foi levado para a Babilônia com ganchos?",
+    options: ["Jeoaquim", "Zedequias", "Joaquim", "Manassés"],
+    answer: "Jeoaquim"
+  },
+  {
+    question: "Qual era o nome do profeta que anunciou a vinda de um precursor do Messias?",
+    options: ["Malaquias", "Isaías", "Jeremias", "Zacarias"],
+    answer: "Malaquias"
+  },
+  {
+    question: "Quem foi o rei de Israel que instalou bezerros de ouro em Betel e Dã?",
+    options: ["Jeroboão", "Acabe", "Omri", "Jeú"],
+    answer: "Jeroboão"
+  },
+  {
+    question: "Qual era o nome do servo de Abraão que buscou uma esposa para Isaque?",
+    options: ["Eliézer", "Ló", "Ismael", "Zicri"],
+    answer: "Eliézer"
+  },
+  {
+    question: "Quem foi o profeta que viu uma visão de um homem montado em um cavalo vermelho?",
+    options: ["Zacarias", "Ageu", "Daniel", "Ezequiel"],
+    answer: "Zacarias"
+  },
+  {
+    question: "Qual era o nome do rei de Judá que foi curado de uma doença mortal por Deus?",
+    options: ["Ezequias", "Josias", "Asa", "Jotão"],
+    answer: "Ezequias"
+  },
+  {
+    question: "Quem foi o profeta que previu o nascimento de uma criança chamada Emanuel?",
+    options: ["Isaías", "Jeremias", "Ezequiel", "Daniel"],
+    answer: "Isaías"
+  },
+  {
+    question: "Qual era o nome do rei moabita que contratou Balaão para amaldiçoar Israel?",
+    options: ["Balac", "Eglom", "Mesa", "Seom"],
+    answer: "Balac"
+  },
+  {
+    question: "Quem foi o profeta que foi apedrejado por ordem de Joiakim?",
+    options: ["Urias", "Jeremias", "Habacuque", "Sofonias"],
+    answer: "Urias"
+  },
+  {
+    question: "Qual era o nome do rei de Judá que reinou por apenas três meses antes do exílio?",
+    options: ["Jeconias", "Zedequias", "Joaquim", "Jeoaquim"],
+    answer: "Jeconias"
+  },
+  {
+    question: "Quem foi o profeta que viu uma visão de um candelabro de ouro?",
+    options: ["Zacarias", "Ezequiel", "Daniel", "Isaías"],
+    answer: "Zacarias"
+  },
+  {
+    question: "Qual era o nome do rei de Judá que foi assassinado por seus oficiais?",
+    options: ["Joás", "Amazias", "Uzias", "Jotão"],
+    answer: "Joás"
+  },
+  {
+    question: "Quem foi o profeta que viu uma visão de uma mulher em um cesto?",
+    options: ["Zacarias", "Ezequiel", "Amós", "Oséias"],
+    answer: "Zacarias"
+  },
+  {
+    question: "Qual era o nome do rei de Israel que foi devorado por cães, cumprindo a profecia?",
+    options: ["Jeroboão II", "Acabe", "Jeorão", "Omri"],
+    answer: "Jeorão"
+  },
+  {
+    question: "Quem foi o profeta que viu uma visão de quatro chifres e quatro ferreiros?",
+    options: ["Zacarias", "Daniel", "Ezequiel", "Isaías"],
+    answer: "Zacarias"
+  },
+  {
+    question: "Qual era o nome do sacerdote que foi morto por ordem de Saul em Nobe?",
+    options: ["Aimeleque", "Abiatar", "Zadoque", "Eli"],
+    answer: "Aimeleque"
+  },
+  {
+    question: "Quem foi o profeta que anunciou a destruição de Tiro e Sidom?",
+    options: ["Ezequiel", "Isaías", "Jeremias", "Amós"],
+    answer: "Ezequiel"
+  },
+  {
+    question: "Qual era o nome do rei de Judá que ficou leproso por queimar incenso no templo?",
+    options: ["Uzias", "Jotão", "Acaz", "Ezequias"],
+    answer: "Uzias"
+  },
+  {
+    question: "Quem foi o profeta que viu uma visão de uma estátua de quatro metais?",
+    options: ["Daniel", "Ezequiel", "Isaías", "Jeremias"],
+    answer: "Daniel"
+  },
+  {
+    question: "Qual era o nome do rei de Judá que foi levado ao Egito como prisioneiro?",
+    options: ["Oséias", "Jeoacaz", "Jeoaquim", "Zedequias"],
+    answer: "Jeoacaz"
+  },
+  {
+    question: "Quem foi o profeta que interpretou a escrita na parede para Belsazar?",
+    options: ["Daniel", "Ezequiel", "Jeremias", "Isaías"],
+    answer: "Daniel"
+  },
+  {
+    question: "Qual era o nome do rei de Judá que se escondeu em cavernas do rei Saul?",
+    options: ["Davi", "Salomão", "Saul", "Roboão"],
+    answer: "Davi"
+  },
+  {
+    question: "Quem foi o profeta que previu o exílio de Judá por 70 anos?",
+    options: ["Jeremias", "Isaías", "Ezequiel", "Daniel"],
+    answer: "Jeremias"
+  },
+  {
+    question: "Qual era o nome do rei de Israel que foi amaldiçoado por consultar a feiticeira de En-Dor?",
+    options: ["Saul", "Jeroboão", "Acabe", "Jeú"],
+    answer: "Saul"
+  },
+  {
+    question: "Quem foi o profeta que viu uma visão de um vale de ossos secos?",
+    options: ["Ezequiel", "Daniel", "Isaías", "Jeremias"],
+    answer: "Ezequiel"
+  },
+  {
+    question: "Qual era o nome do rei de Judá que foi poupado por Nabucodonosor em seu primeiro cerco?",
+    options: ["Joaquim", "Zedequias", "Jeoaquim", "Jeconias"],
+    answer: "Joaquim"
+  },
+  {
+    question: "Quem foi o profeta que anunciou o julgamento de Damasco, Gaza e Tiro?",
+    options: ["Amós", "Oséias", "Joel", "Miquéias"],
+    answer: "Amós"
+  },
+  {
+    question: "Qual era o nome do rei de Israel que reinou por apenas sete dias?",
+    options: ["Zinri", "Omri", "Baasa", "Elá"],
+    answer: "Zinri"
+  },
+  {
+    question: "Quem foi o profeta que viu uma visão de sete candelabros no Apocalipse?",
+    options: ["João", "Daniel", "Ezequiel", "Isaías"],
+    answer: "João"
+  },
+  {
+    question: "Qual era o nome do rei de Judá que foi morto pelos egípcios em Megido?",
+    options: ["Josias", "Ezequias", "Joás", "Amazias"],
+    answer: "Josias"
+  },
+  {
+    question: "Quem foi o profeta que anunciou o julgamento contra Moabe e Amom?",
+    options: ["Jeremias", "Ezequiel", "Isaías", "Amós"],
+    answer: "Jeremias"
+  },
+  {
+    question: "Qual era o nome do rei de Judá que viu o sol retroceder como sinal de Deus?",
+    options: ["Ezequias", "Josias", "Asa", "Joás"],
+    answer: "Ezequias"
+  },
+  {
+    question: "Quem foi o profeta que viu uma visão de um livro selado com sete selos?",
+    options: ["João", "Daniel", "Ezequiel", "Isaías"],
+    answer: "João"
+  },
+  {
+    question: "Qual era o nome do rei de Israel que foi morto por seu servo Zinri?",
+    options: ["Elá", "Baasa", "Omri", "Tibni"],
+    answer: "Elá"
+  },
+  {
+    question: "Quem foi o profeta que anunciou o julgamento contra a casa de Acabe?",
+    options: ["Elias", "Eliseu", "Miquéias", "Natã"],
+    answer: "Elias"
+  },
+  {
+    question: "Qual era o nome do rei de Judá que foi ferido em batalha contra os sírios?",
+    options: ["Jeorão", "Acazias", "Joás", "Amazias"],
+    answer: "Jeorão"
+  },
+  {
+    question: "Quem foi o profeta que viu uma visão de um chifre pequeno em Daniel?",
+    options: ["Daniel", "Ezequiel", "Isaías", "Jeremias"],
+    answer: "Daniel"
+  },
+  {
+    question: "Qual era o nome do rei de Judá que foi morto por Jeú junto com Acazias?",
+    options: ["Jeorão", "Acaz", "Jotão", "Amazias"],
+    answer: "Jeorão"
+  },
+  {
+    question: "Quem foi o profeta que anunciou o julgamento contra Judá por seus pecados?",
+    options: ["Miquéias", "Oséias", "Joel", "Amós"],
+    answer: "Miquéias"
+  },
+  {
+    question: "Qual era o nome do rei de Israel que foi sucedido por seu filho Acazias?",
+    options: ["Acabe", "Jeroboão", "Omri", "Jeú"],
+    answer: "Acabe"
+  },
+  {
+    question: "Quem foi o profeta que viu uma visão de um novo templo em Jerusalém?",
+    options: ["Ezequiel", "Daniel", "Isaías", "Jeremias"],
+    answer: "Ezequiel"
+  },
+  {
+    question: "Qual era o nome do rei de Judá que foi capturado por faraó Neco?",
+    options: ["Jeoacaz", "Josias", "Joaquim", "Zedequias"],
+    answer: "Jeoacaz"
+  },
+  {
+    question: "Quem foi o profeta que anunciou a destruição de Samaria?",
+    options: ["Oséias", "Amós", "Miquéias", "Joel"],
+    answer: "Oséias"
+  },
+  {
+    question: "Qual era o nome do rei de Judá que viu a destruição do templo em seu reinado?",
+    options: ["Zedequias", "Joaquim", "Jeoaquim", "Jeconias"],
+    answer: "Zedequias"
+  },
+  {
+    question: "Quem foi o profeta que anunciou o julgamento contra os filisteus?",
+    options: ["Jeremias", "Ezequiel", "Isaías", "Amós"],
+    answer: "Jeremias"
   }
 ];
 
