@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Jogo de Perguntas Bíblicas</title>
+<link rel="stylesheet" href="style.css" />
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+  import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA4Q-OqazZr2k5riI2wS8fIzypsf9ZYaxQ",
+    authDomain: "biblical-questions-a55db.firebaseapp.com",
+    databaseURL: "https://biblical-questions-a55db-default-rtdb.firebaseio.com",
+    projectId: "biblical-questions-a55db",
+    storageBucket: "biblical-questions-a55db.appspot.com",
+    messagingSenderId: "1045554441948",
+    appId: "1:1045554441948:web:6f2d7b45b039da8c994e19"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  window.db = getDatabase(app);
+  window.dbRef = ref(window.db, 'ranking');
+  window.push = push;
+  window.onValue = onValue;
+</script>
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <img src="logo.png" alt="Logo" class="logo" />
+      <span class="logo-text">Bíblia Perguntada</span>
+    </div>
+    <div class="timer" id="timer">00:00</div>
+    <button id="toggleRanking" class="toggle-ranking">Mostrar Ranking</button>
+  </header>
+
+  <!-- Modal para nome e comum -->
+  <div class="modal" id="startModal">
+    <div class="modal-content">
+      <h2>Bem-vindo!</h2>
+      <input type="text" id="playerName" placeholder="Seu Nome" />
+      <input type="text" id="playerComum" placeholder="Sua Comum" />
+      <button id="startButton">Começar</button>
+    </div>
+  </div>
+
+  <main>
+    <div class="question-container" id="questionContainer">
+      <h2 id="questionText">Pergunta aparecerá aqui</h2>
+      <div class="options" id="optionsContainer"></div>
+    </div>
+
+    <div class="ranking-container">
+      <h3>Ranking</h3>
+      <table id="rankingTable">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Comum</th>
+            <th>Acertos</th>
+            <th>Tempo (s)</th>
+          </tr>
+        </thead>
+        <tbody id="rankingBody">
+          <!-- Ranking dinâmico -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer>
+    <p>Feito com ❤️ por Samuel Felipe</p>
+  </footer>
+
+  <script src="script.js" type="module"></script>
+</body>
+</html>

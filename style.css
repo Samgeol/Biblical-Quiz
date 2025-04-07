@@ -1,0 +1,294 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+body {
+  background-color: #ffffff;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.logo-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+}
+
+.timer {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.question-container {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  max-width: 600px;
+  width: 100%;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.question-container h2 {
+  margin-bottom: 20px;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.options button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #e0f0ff;
+  color: #333;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.options button:hover {
+  background-color: #c2e0ff;
+}
+
+.options button.correct {
+  background-color: #b2f2bb;
+}
+
+.options button.wrong {
+  background-color: #ffb2b2;
+}
+
+.ranking-container {
+  max-width: 600px;
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 40px;
+  text-align: center;
+}
+
+.ranking-container h3 {
+  margin-bottom: 15px;
+}
+
+.ranking-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ranking-container th,
+.ranking-container td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.medalha {
+  height: 40px;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+footer {
+  text-align: center;
+  padding: 15px;
+  border-top: 1px solid #ddd;
+  font-size: 0.9em;
+}
+
+/* Modal customizado */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+}
+
+.modal-content h2 {
+  margin-bottom: 10px;
+}
+
+.modal-content input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1em;
+}
+
+.modal-content button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #4fc3f7;
+  color: #fff;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.modal-content button:hover {
+  background-color: #039be5;
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-container {
+    justify-content: center;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .logo-text {
+    font-size: 1.3em;
+    text-align: center;
+  }
+
+  .timer {
+    font-size: 1.1em;
+    align-self: center;
+    order: 2;
+  }
+
+  .toggle-ranking {
+    display: block;
+    margin-top: 10px;
+    padding: 8px 12px;
+    font-size: 1em;
+    border: none;
+    border-radius: 8px;
+    background-color: #4fc3f7;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .question-container, .ranking-container {
+    margin: 0 10px;
+    max-width: 100%;
+  }
+
+  .ranking-container {
+    display: none;
+  }
+
+  .modal-content {
+    padding: 20px;
+    gap: 10px;
+  }
+
+  .modal-content h2 {
+    font-size: 1.2em;
+  }
+
+  .modal-content input,
+  .modal-content button {
+    font-size: 1em;
+  }
+}
+
+@media (min-width: 769px) {
+  .toggle-ranking {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    height: 40px;
+    width: 40px;
+  }
+
+  .logo-text {
+    font-size: 1.1em;
+  }
+
+  .timer {
+    font-size: 1em;
+  }
+
+  .question-container h2 {
+    font-size: 1.1em;
+  }
+
+  .options button {
+    font-size: 0.9em;
+    padding: 10px;
+  }
+
+  .ranking-container th,
+  .ranking-container td {
+    padding: 6px;
+    font-size: 0.9em;
+  }
+
+  footer {
+    font-size: 0.8em;
+    padding: 10px;
+  }
+}
