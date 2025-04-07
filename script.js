@@ -511,8 +511,27 @@ startButton.addEventListener('click', () => {
   }
   playerName = name;
   playerComum = comum;
+
+  // Salvar no localStorage
+  localStorage.setItem('playerName', playerName);
+  localStorage.setItem('playerComum', playerComum);
+
   startModal.style.display = 'none';
   startGame();
+});
+
+// Carregar nome e comum do localStorage
+window.addEventListener('load', () => {
+  const savedName = localStorage.getItem('playerName');
+  const savedComum = localStorage.getItem('playerComum');
+  if(savedName && savedComum) {
+    playerName = savedName;
+    playerComum = savedComum;
+    playerNameInput.value = savedName;
+    playerComumInput.value = savedComum;
+    startModal.style.display = 'none';
+    startGame();
+  }
 });
 
 function startGame() {
@@ -579,21 +598,63 @@ function endGame() {
   clearInterval(timerInterval);
   const totalTime = Math.floor((Date.now() - startTime) / 1000);
 
-  // Enviar resultado para Firebase
-  window.push(window.dbRef, {
-    name: playerName,
-    comum: playerComum,
-    score: correctAnswers,
-    time: totalTime
-  });
+  // Verificar se já existe pontuação para esse jogador
+  window.onValue(window.dbRef, (snapshot) => {
+    const data = snapshot.val();
+    let existingKey = null;
+    let existingScore = -1;
+    let existingTime = Infinity;
 
-  // Resetar para jogar novamente se quiser
-  currentQuestion = 0;
-  correctAnswers = 0;
+    for (let key in data) {
+      if (data[key].name === playerName && data[key].comum === playerComum) {
+        existingKey = key;
+        existingScore = data[key].score;
+        existingTime = data[key].time;
+        break;
+      }
+    }
 
-  // Atualizar ranking
-  loadRanking();
+    // Se não existe ou a nova pontuação é melhor, sobrescreve
+    if (
+      existingKey === null ||
+      correctAnswers > existingScore ||
+      (correctAnswers === existingScore && totalTime < existingTime)
+    ) {
+      if (existingKey) {
+        // Atualizar pontuação existente
+        const updateRef = ref(window.db, 'ranking/' + existingKey);
+        set(updateRef, {
+          name: playerName,
+          comum: playerComum,
+          score: correctAnswers,
+          time: totalTime
+        });
+      } else {
+        // Criar nova pontuação
+        window.push(window.dbRef, {
+          name: playerName,
+          comum: playerComum,
+          score: correctAnswers,
+          time: totalTime
+        });
+      }
+    }
+
+    // Mostrar mensagem de fim de jogo
+    document.getElementById('questionContainer').style.display = 'none';
+    document.getElementById('endgameContainer').style.display = 'block';
+
+    // Atualizar ranking
+    loadRanking();
+  }, { onlyOnce: true });
 }
+
+// Botão tentar novamente
+document.getElementById('retryButton').addEventListener('click', () => {
+  document.getElementById('endgameContainer').style.display = 'none';
+  document.getElementById('questionContainer').style.display = 'block';
+  startGame();
+});
 
 function loadRanking() {
   window.onValue(window.dbRef, (snapshot) => {

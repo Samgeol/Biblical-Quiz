@@ -8,7 +8,7 @@
 <!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-  import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+  import { getDatabase, ref, push, onValue, set } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyA4Q-OqazZr2k5riI2wS8fIzypsf9ZYaxQ",
@@ -25,6 +25,8 @@
   window.dbRef = ref(window.db, 'ranking');
   window.push = push;
   window.onValue = onValue;
+  window.ref = ref;
+  window.set = set;
 </script>
 </head>
 <body>
@@ -51,6 +53,12 @@
     <div class="question-container" id="questionContainer">
       <h2 id="questionText">Pergunta aparecerá aqui</h2>
       <div class="options" id="optionsContainer"></div>
+    </div>
+
+    <div class="endgame-container" id="endgameContainer" style="display:none;">
+      <h2>Fim do jogo!</h2>
+      <p>Sua pontuação foi salva.</p>
+      <button id="retryButton">Tentar novamente</button>
     </div>
 
     <div class="ranking-container">
