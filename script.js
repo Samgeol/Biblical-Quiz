@@ -1200,9 +1200,14 @@ function startGame() {
   currentQuestion = 0;
   correctAnswers = 0;
 
-  // Selecionar aleatoriamente 10 perguntas
-  const shuffled = questions.sort(() => 0.5 - Math.random());
-  window.selectedQuestions = shuffled.slice(0, 10);
+  // Selecionar aleatoriamente 10 perguntas com cópia profunda para evitar efeitos colaterais
+  const shuffled = [...questions].sort(() => 0.5 - Math.random());
+  const selected = shuffled.slice(0, 10).map(q => ({
+    question: q.question,
+    options: [...q.options],
+    answer: q.answer
+  }));
+  window.selectedQuestions = selected;
 
   startTime = Date.now();
   timerInterval = setInterval(updateTimer, 1000);
