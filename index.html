@@ -7,9 +7,20 @@
 <link rel="stylesheet" href="style.css" />
 <!-- Firebase SDK -->
 <script type="module">
+  // Importações do Firebase
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-  import { getDatabase, ref, push, onValue, set } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+  import {
+    getDatabase,
+    ref,
+    push,
+    onValue,
+    set,
+    serverTimestamp, // Importar função necessária
+    onDisconnect,    // Importar função necessária
+    goOffline        // Importar função necessária
+  } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
+  // Configuração do Firebase (mantida)
   const firebaseConfig = {
     apiKey: "AIzaSyA4Q-OqazZr2k5riI2wS8fIzypsf9ZYaxQ",
     authDomain: "biblical-questions-a55db.firebaseapp.com",
@@ -27,6 +38,35 @@
   window.onValue = onValue;
   window.ref = ref;
   window.set = set;
+  // Expor as funções adicionais globalmente
+  window.serverTimestamp = serverTimestamp;
+  window.onDisconnect = onDisconnect;
+  window.goOffline = goOffline;
+  window.firebaseInitialized = true; // Flag para indicar que o script de init rodou
+  window.firebaseConnected = false; // Flag para indicar status da conexão
+
+  console.log("Firebase SDK inicializado e funções expostas globalmente.");
+
+  // Listener para verificar status da conexão e definir a flag
+  const connectedRef = ref(window.db, '.info/connected');
+  onValue(connectedRef, (snap) => {
+    // Corrigido: Removida a linha duplicada 'if (snap.val() === true)'
+    if (snap.val() === true) {
+      if (!window.firebaseConnected) { // Define apenas na primeira vez que conecta
+          console.log("Conectado ao Firebase Realtime Database.");
+          window.firebaseConnected = true;
+          // Dispara um evento customizado para notificar script.js (alternativa a callback global)
+          window.dispatchEvent(new CustomEvent('firebaseconnected'));
+      }
+    } else {
+      if (window.firebaseConnected) { // Loga apenas na primeira vez que desconecta
+          console.log("Desconectado do Firebase Realtime Database.");
+          window.firebaseConnected = false;
+      }
+      window.firebaseConnected = false;
+    }
+  });
+
 </script>
 </head>
 <body>
@@ -36,8 +76,16 @@
       <span class="logo-text">Bíblia Perguntada</span>
     </div>
     <div class="timer" id="timer">00:00</div>
+    <button id="settingsButton" class="settings-button">⚙️</button> <!-- Botão de Configurações -->
     <button id="toggleRanking" class="toggle-ranking">Mostrar Ranking</button>
   </header>
+
+  <!-- Menu de Configurações (inicialmente oculto) -->
+  <div class="settings-menu" id="settingsMenu">
+    <button id="closeSettingsButton" class="close-settings-button">←</button>
+    <h2>Configurações</h2>
+<button id="changeNameButton" class="settings-option-button">Mudar nomes</button>
+  </div>
 
   <!-- Modal para nome e comum -->
   <div class="modal" id="startModal">
@@ -47,6 +95,14 @@
       <input type="text" id="playerComum" placeholder="Sua Comum" />
       <button id="startButton">Começar</button>
     </div>
+  </div>
+
+  <div class="modal" id="infoModal" style="display:none;">
+    <div class="modal-content">
+      <h2>Como funciona o jogo</h2>
+      <p>Ao apertar em "Começar" ou "Tente Novamente" terão perguntas sobre a bíblia e um ranking de acertos e tempo, as perguntas são aleatórias. Mas na hora que você voltar já começa o jogo automaticamente.</p>
+      <button id="infoStartButton">Começar</button>
+  </div>
   </div>
 
   <main>

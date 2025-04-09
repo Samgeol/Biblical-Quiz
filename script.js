@@ -1154,6 +1154,17 @@ let startTime;
 let timerInterval;
 let playerName = "";
 let playerComum = "";
+let userId = null; // Para o sistema de presença
+// userStatusRef será criado dentro de tryInitializePresence
+let userStatusRef = null;
+let presenceSetupAttempted = false; // Flag para tentar configurar a presença apenas uma vez por sessão
+
+// Referência para o nó de status geral no Firebase (se necessário)
+// const statusRef = window.ref(window.db, 'status');
+// As funções do Firebase (ref, set, onValue, push, serverTimestamp, onDisconnect, goOffline)
+// agora são acessadas diretamente via 'window' (ex: window.ref),
+// pois foram expostas globalmente no index.html.
+
 
 const startModal = document.getElementById('startModal');
 const startButton = document.getElementById('startButton');
@@ -1163,6 +1174,12 @@ const questionText = document.getElementById('questionText');
 const optionsContainer = document.getElementById('optionsContainer');
 const timerDisplay = document.getElementById('timer');
 const rankingBody = document.getElementById('rankingBody');
+const settingsButton = document.getElementById('settingsButton');
+const settingsMenu = document.getElementById('settingsMenu');
+const closeSettingsButton = document.getElementById('closeSettingsButton');
+const changeNameButton = document.getElementById('changeNameButton');
+
+let isEditingNames = false;
 
 startButton.addEventListener('click', () => {
   const name = playerNameInput.value.trim();
@@ -1171,28 +1188,137 @@ startButton.addEventListener('click', () => {
     alert('Por favor, preencha seu nome e sua comum.');
     return;
   }
+
+  const oldName = window.oldPlayerName;
+  const oldComum = window.oldPlayerComum;
+
   playerName = name;
   playerComum = comum;
 
-  // Salvar no localStorage
+  // Gera um userId único e persistente na primeira vez
+  let savedUserId = localStorage.getItem('userId');
+  if (!savedUserId) {
+    try {
+      savedUserId = crypto.randomUUID();
+    } catch (e) {
+      savedUserId = 'user_' + Date.now() + '_' + Math.floor(Math.random() * 1000000);
+    }
+    localStorage.setItem('userId', savedUserId);
+  }
+  userId = savedUserId;
+
   localStorage.setItem('playerName', playerName);
   localStorage.setItem('playerComum', playerComum);
 
   startModal.style.display = 'none';
+
+  tryInitializePresence();
+
+  if (isEditingNames) {
+    isEditingNames = false;
+    startButton.textContent = 'Começar';
+
+    // Atualizar o ranking antigo para os novos nomes
+    window.onValue(window.dbRef, (snapshot) => {
+      const data = snapshot.val();
+      for (let key in data) {
+        if (data[key].userId === userId) {
+          const updateRef = window.ref(window.db, 'ranking/' + key);
+          window.set(updateRef, {
+            userId: userId,
+            name: playerName,
+            comum: playerComum,
+            score: data[key].score,
+            time: data[key].time
+          }).then(() => {
+            loadRanking();
+          }).catch((error) => {
+            console.error("Erro ao atualizar nome no ranking:", error);
+            loadRanking();
+          });
+          break;
+        }
+      }
+      // Se não encontrou a entrada (pode acontecer se for a primeira vez ou erro),
+      // o loadRanking() chamado no .then() ou .catch() cuidará da atualização visual.
+    }, { onlyOnce: true });
+
+    return; // Não inicia o jogo nem mostra o infoModal
+  }
+
+  // Fluxo normal de início do jogo
+  if (!localStorage.getItem('infoShown')) {
+    document.getElementById('infoModal').style.display = 'flex';
+  } else {
+    timerDisplay.style.display = 'block';
+    startGame();
+  }
+});
+
+// Evento do botão "Começar" do pop-up explicativo
+document.getElementById('infoStartButton').addEventListener('click', () => {
+  localStorage.setItem('infoShown', 'true'); // Marca que o pop-up foi mostrado
+  document.getElementById('infoModal').style.display = 'none';
+  timerDisplay.style.display = 'block'; // Mostrar o timer só quando iniciar o quiz
   startGame();
 });
 
 // Carregar nome e comum do localStorage
 window.addEventListener('load', () => {
+  timerDisplay.style.display = 'none'; // Oculta o timer inicialmente
+
   const savedName = localStorage.getItem('playerName');
   const savedComum = localStorage.getItem('playerComum');
+
   if(savedName && savedComum) {
     playerName = savedName;
     playerComum = savedComum;
+    userId = localStorage.getItem('userId'); // Carrega o ID
+    // Se não houver userId no localStorage, cria um novo (caso de migração ou primeiro acesso)
+    if (!userId) {
+        // Tenta gerar UUID, senão usa fallback
+        try {
+          userId = crypto.randomUUID();
+        } catch (e) {
+          userId = 'user_' + Date.now() + '_' + Math.floor(Math.random() * 1000000);
+        }
+        localStorage.setItem('userId', userId);
+    }
+    // Não cria userStatusRef aqui
+
     playerNameInput.value = savedName;
     playerComumInput.value = savedComum;
+
     startModal.style.display = 'none';
-    startGame();
+
+    // Tenta inicializar a presença agora que temos userId
+    tryInitializePresence();
+
+    // Saudação dentro da área das perguntas, mantendo a estrutura
+    const container = document.getElementById('questionContainer');
+    const questionH2 = document.getElementById('questionText');
+    const optionsDiv = document.getElementById('optionsContainer');
+
+    questionH2.textContent = `Que bom te ver, ${playerName}!`;
+    optionsDiv.innerHTML = ''; // Limpa opções anteriores, se houver
+    optionsDiv.style.display = 'none'; // Esconde área de opções
+
+    // Cria e adiciona o botão "Começar"
+    const resumeButton = document.createElement('button');
+    resumeButton.textContent = 'Começar';
+    resumeButton.id = 'resumeStartButton'; // Usa o ID já estilizado
+    container.appendChild(resumeButton);
+
+    resumeButton.addEventListener('click', () => {
+      container.removeChild(resumeButton); // Remove o botão
+      questionH2.textContent = ''; // Limpa a saudação
+      optionsDiv.style.display = 'flex'; // Mostra área de opções
+      timerDisplay.style.display = 'block'; // Mostra o timer
+      startGame(); // Inicia o jogo
+    });
+  } else {
+    // Se não tem nome/comum salvo, mostra o modal inicial
+    startModal.style.display = 'flex';
   }
 });
 
@@ -1202,16 +1328,24 @@ function startGame() {
 
   // Selecionar aleatoriamente 10 perguntas com cópia profunda para evitar efeitos colaterais
   const shuffled = [...questions].sort(() => 0.5 - Math.random());
-  const selected = shuffled.slice(0, 10).map(q => ({
+  window.selectedQuestions = shuffled.slice(0, 10).map(q => ({
     question: q.question,
     options: [...q.options],
     answer: q.answer
   }));
-  window.selectedQuestions = selected;
+
+  // Garante que o container de perguntas esteja visível (caso tenha sido ocultado no fim do jogo)
+  document.getElementById('questionContainer').style.display = 'block';
+  // Garante que a área de opções esteja visível
+  document.getElementById('optionsContainer').style.display = 'flex';
+  // Garante que o texto da pergunta esteja limpo (caso tenha a saudação)
+  document.getElementById('questionText').textContent = '';
 
   startTime = Date.now();
+  // Limpa intervalo anterior, se existir
+  if (timerInterval) clearInterval(timerInterval);
   timerInterval = setInterval(updateTimer, 1000);
-  showQuestion();
+  showQuestion(); // Mostra a primeira pergunta
 }
 
 function updateTimer() {
@@ -1237,8 +1371,8 @@ function showQuestion() {
   }
 
   const q = window.selectedQuestions[currentQuestion];
-  questionText.textContent = q.question;
-  optionsContainer.innerHTML = '';
+  questionText.textContent = q.question; // Define o texto da pergunta
+  optionsContainer.innerHTML = ''; // Limpa botões de opção anteriores
 
   const shuffledOptions = shuffleArray(q.options);
 
@@ -1254,11 +1388,15 @@ function selectAnswer(button, correctAnswer) {
   const buttons = optionsContainer.querySelectorAll('button');
   buttons.forEach(btn => btn.disabled = true);
 
+  const questionContainer = document.getElementById('questionContainer');
+
   if (button.textContent === correctAnswer) {
     button.classList.add('correct');
     correctAnswers++;
+    questionContainer.classList.add('correct-container');
   } else {
     button.classList.add('wrong');
+    questionContainer.classList.add('wrong-container');
     buttons.forEach(btn => {
       if (btn.textContent === correctAnswer) {
         btn.classList.add('correct');
@@ -1267,6 +1405,8 @@ function selectAnswer(button, correctAnswer) {
   }
 
   setTimeout(() => {
+    // Remover classes de cor do container para próxima pergunta
+    questionContainer.classList.remove('correct-container', 'wrong-container');
     currentQuestion++;
     showQuestion();
   }, 1000);
@@ -1276,7 +1416,7 @@ function endGame() {
   clearInterval(timerInterval);
   const totalTime = Math.floor((Date.now() - startTime) / 1000);
 
-  // Verificar se já existe pontuação para esse jogador
+  // Verificar se já existe pontuação para esse jogador usando userId
   window.onValue(window.dbRef, (snapshot) => {
     const data = snapshot.val();
     let existingKey = null;
@@ -1284,7 +1424,7 @@ function endGame() {
     let existingTime = Infinity;
 
     for (let key in data) {
-      if (data[key].name === playerName && data[key].comum === playerComum) {
+      if (data[key].userId === userId) {
         existingKey = key;
         existingScore = data[key].score;
         existingTime = data[key].time;
@@ -1300,8 +1440,9 @@ function endGame() {
     ) {
       if (existingKey) {
         // Atualizar pontuação existente
-        const updateRef = ref(window.db, 'ranking/' + existingKey);
-        set(updateRef, {
+        const updateRef = window.ref(window.db, 'ranking/' + existingKey);
+        window.set(updateRef, {
+          userId: userId, // Garante que o userId esteja presente
           name: playerName,
           comum: playerComum,
           score: correctAnswers,
@@ -1310,6 +1451,7 @@ function endGame() {
       } else {
         // Criar nova pontuação
         window.push(window.dbRef, {
+          userId: userId, // Adiciona userId ao criar nova entrada
           name: playerName,
           comum: playerComum,
           score: correctAnswers,
@@ -1330,8 +1472,8 @@ function endGame() {
 // Botão tentar novamente
 document.getElementById('retryButton').addEventListener('click', () => {
   document.getElementById('endgameContainer').style.display = 'none';
-  document.getElementById('questionContainer').style.display = 'block';
-  startGame();
+  // Não chama startGame diretamente, volta para a saudação se aplicável
+  window.location.reload(); // Recarrega a página para reiniciar o fluxo
 });
 
 function loadRanking() {
@@ -1340,7 +1482,8 @@ function loadRanking() {
     const rankingArray = [];
 
     for (let key in data) {
-      rankingArray.push(data[key]);
+      // Adiciona a chave do Firebase ao objeto para referência, se necessário
+      rankingArray.push({ ...data[key], firebaseKey: key });
     }
 
     rankingArray.sort((a, b) => {
@@ -1351,6 +1494,39 @@ function loadRanking() {
       }
     });
 
+    // Obter posição anterior e timestamp do localStorage
+    let previousInfo = JSON.parse(localStorage.getItem('playerRankingInfo') || '{}');
+    const now = Date.now();
+
+    // Encontrar posição atual do jogador pelo userId
+    let currentPlayerIndex = -1;
+    if (userId) { // Busca pelo userId se ele existir
+        currentPlayerIndex = rankingArray.findIndex(
+            p => p.userId === userId
+        );
+    }
+
+
+    let showArrow = false;
+
+    if (currentPlayerIndex !== -1) {
+      // Compara com a posição anterior salva para o userId atual
+      if (previousInfo.userId === userId) {
+        // Se passou mais de 1 hora, não mostrar seta (ou outra lógica de tempo)
+        if (now - previousInfo.timestamp < 3600000) {
+          if (currentPlayerIndex < previousInfo.position) {
+            showArrow = true;
+          }
+        }
+      }
+      // Atualizar info no localStorage com userId
+      localStorage.setItem('playerRankingInfo', JSON.stringify({
+        userId: userId, // Salva userId para comparação futura
+        position: currentPlayerIndex,
+        timestamp: now
+      }));
+    }
+
     rankingBody.innerHTML = '';
     rankingArray.forEach((player, index) => {
       let medalImg = 'participacao.png';
@@ -1358,15 +1534,18 @@ function loadRanking() {
       else if(index === 1) medalImg = 'prata.png';
       else if(index === 2) medalImg = 'bronze.png';
 
-      const name = player.name.length > 20 ? player.name.substring(0, 20) + '...' : player.name;
-      const comum = player.comum.length > 20 ? player.comum.substring(0, 20) + '...' : player.comum;
+      // Verifica se 'name' e 'comum' existem antes de tentar acessar 'length'
+      const name = player.name && player.name.length > 20 ? player.name.substring(0, 20) + '...' : player.name || 'Nome não definido';
+      const comum = player.comum && player.comum.length > 20 ? player.comum.substring(0, 20) + '...' : player.comum || 'Comum não definida';
+
+      const arrow = (showArrow && index === currentPlayerIndex) ? ' <span style="color:green;">&#9650;</span>' : '';
 
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td><img src="${medalImg}" alt="medalha" class="medalha"> ${name}</td>
+        <td><img src="${medalImg}" alt="medalha" class="medalha"> ${name}${arrow}</td>
         <td>${comum}</td>
-        <td>${player.score}</td>
-        <td>${player.time}</td>
+        <td>${player.score !== undefined ? player.score : '-'}</td>
+        <td>${player.time !== undefined ? player.time : '-'}</td>
       `;
       rankingBody.appendChild(tr);
     });
@@ -1386,5 +1565,119 @@ toggleRankingBtn.addEventListener('click', () => {
   }
 });
 
+// Evento do botão "Começar" da saudação personalizada
+// (Removido pois não existe mais modal)
+
 // Carregar ranking ao abrir
 loadRanking();
+
+
+// --- Listener para o evento de conexão do Firebase ---
+window.addEventListener('firebaseconnected', () => {
+    // Tenta inicializar a presença agora que a conexão está confirmada
+    tryInitializePresence();
+});
+
+// --- Sistema de Presença Firebase ---
+
+// Função wrapper que verifica todas as condições antes de configurar a presença
+function tryInitializePresence() {
+    // Só executa uma vez por carregamento de página
+    if (presenceSetupAttempted) return;
+
+    // Verifica se temos conexão E um usuário identificado
+    if (window.firebaseConnected && userId) {
+        presenceSetupAttempted = true; // Marca que vamos tentar configurar
+
+        // Verifica disponibilidade das funções essenciais do Firebase
+        if (!window.db || !window.ref || !window.set || !window.onDisconnect || !window.serverTimestamp) {
+             console.error("Erro Crítico: Funções essenciais do Firebase (db, ref, set, onDisconnect, serverTimestamp) não encontradas em window.");
+             presenceSetupAttempted = false; // Permite nova tentativa se falhar aqui
+             return; // Não pode continuar
+        }
+
+        // Tenta criar a referência do usuário AGORA
+        try {
+            userStatusRef = window.ref(window.db, `status/${userId}`);
+        } catch (e) {
+            console.error("Erro ao criar userStatusRef em tryInitializePresence:", e);
+            userStatusRef = null;
+            presenceSetupAttempted = false; // Permite nova tentativa se falhar aqui
+            return; // Não pode continuar sem a referência
+        }
+
+        // Se chegou aqui, temos conexão, userId e userStatusRef
+
+        // --- Lógica Principal da Presença ---
+        const onlineStatus = {
+            online: true,
+            last_seen: window.serverTimestamp(),
+            name: playerName,
+            comum: playerComum
+        };
+        const offlineStatus = {
+            online: false,
+            last_seen: window.serverTimestamp(),
+            name: playerName, // Mantém para referência
+            comum: playerComum
+        };
+
+        // Define o status online imediatamente
+        window.set(userStatusRef, onlineStatus).then(() => {
+            // Configura o onDisconnect SOMENTE após definir o status online com sucesso
+            return window.onDisconnect(userStatusRef).set(offlineStatus);
+        }).then(() => {
+            // Handler onDisconnect configurado com sucesso (log removido)
+        }).catch((err) => {
+            console.error("Erro ao configurar presença ou onDisconnect:", err);
+            presenceSetupAttempted = false; // Permite nova tentativa se falhar
+        });
+        // --- Fim da Lógica Principal ---
+
+    } else {
+        // Ainda não pronto para inicializar presença (aguardando conexão ou dados do usuário) - log removido
+    }
+}
+
+
+// --- Função setupPresenceSystem removida/substituída por tryInitializePresence ---
+
+// Tenta desconectar graciosamente ao fechar a aba/navegador
+// Nota: Isso nem sempre funciona de forma confiável, onDisconnect é mais robusto.
+window.addEventListener('beforeunload', () => {
+  // Verifica se a função goOffline existe no objeto window
+  if (window.goOffline && window.db) { // Adiciona verificação de window.db
+    // Não definimos o status aqui, pois o onDisconnect deve lidar com isso.
+    // Apenas instruímos o SDK a se desconectar.
+    window.goOffline(window.db); // Usa window.goOffline
+  } else {
+    // console.warn("Função window.goOffline ou window.db não encontrada no beforeunload."); // Log removido
+  }
+});
+
+
+// --- Lógica do Menu de Configurações ---
+
+// Abrir menu
+settingsButton.addEventListener('click', () => {
+  settingsMenu.classList.add('visible');
+});
+
+// Fechar menu
+closeSettingsButton.addEventListener('click', () => {
+  settingsMenu.classList.remove('visible');
+});
+
+// Botão para alterar nome/comum
+changeNameButton.addEventListener('click', () => {
+  // Guarda os nomes antigos para referência na atualização do ranking
+  window.oldPlayerName = playerName;
+  window.oldPlayerComum = playerComum;
+
+  playerNameInput.value = playerName;
+  playerComumInput.value = playerComum;
+  startModal.style.display = 'flex';
+  isEditingNames = true;
+  startButton.textContent = 'Salvar nomes';
+  settingsMenu.classList.remove('visible');
+});
