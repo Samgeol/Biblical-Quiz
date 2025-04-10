@@ -1271,8 +1271,8 @@ startButton.addEventListener('click', () => {
   }
 
   // 3. Validação de tamanho (após validar caracteres)
-  if (nameInput.length > 50 || comumInput.length > 50) {
-    alert('O nome e a comum devem ter no máximo 50 caracteres.');
+  if (nameInput.length > 12 || comumInput.length > 20) {
+    alert('O nome deve ter no máximo 12 caracteres e a comum no máximo 20.');
     return;
   }
 
