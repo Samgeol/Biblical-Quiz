@@ -1198,10 +1198,8 @@ function sanitizeInput(input) {
  */
 function isValidInput(input) {
   if (typeof input !== 'string' || input.length === 0) return false;
-  // Remove a normalização
-  // const normalized = input.normalize('NFC'); // Linha removida
-  // Usa regex com Unicode Property Escapes e a flag 'u'
-  const allowedCharsRegex = /^[\p{L}0-9 ]+$/u;
+  // Regex explícita com caracteres acentuados comuns e letras/números/espaço
+  const allowedCharsRegex = /^[a-zA-Z0-9áàâãäéèêëíìîïóòôõöúùûüçñÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇÑ ]+$/;
   // Testa diretamente o input original
   return allowedCharsRegex.test(input);
 }
