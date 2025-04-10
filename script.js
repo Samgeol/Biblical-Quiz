@@ -1162,6 +1162,17 @@ const questions = [
     }
 ];
 
+/**
+ * Sanitiza o userId para ser seguro como nome de nó no Firebase.
+ * Substitui caracteres inválidos por _ e limita a 50 caracteres.
+ * @param {string} id
+ * @returns {string}
+ */
+function sanitizeUserId(id) {
+  if (typeof id !== 'string') return '';
+  return id.replace(/[^a-zA-Z0-9_-]/g, '_').substring(0, 50);
+}
+
 // --- Funções de Utilidade ---
 
 /**
@@ -1281,12 +1292,17 @@ startButton.addEventListener('click', () => {
 
   if (!savedUserId) {
     savedUserId = 'user_' + Date.now() + '_' + Math.floor(Math.random() * 1000000);
-    try {
-      localStorage.setItem('userId', savedUserId);
-    } catch (e) {
-      // Ignora erro, segue com userId gerado
-    }
   }
+
+  // Sanitiza o userId para garantir compatibilidade com as regras e nomes de nós
+  savedUserId = sanitizeUserId(savedUserId);
+
+  try {
+    localStorage.setItem('userId', savedUserId);
+  } catch (e) {
+    // Ignora erro, segue com userId gerado
+  }
+
   userId = savedUserId;
 
   // Salva nomes SANITIZADOS no localStorage
@@ -1822,7 +1838,7 @@ function tryInitializePresence() {
             // Handler onDisconnect configurado com sucesso (log removido)
         }).catch((err) => {
             console.error("Erro ao configurar presença ou onDisconnect:", err); // Mantém log dev
-            alert("Ocorreu um erro ao atualizar seu status online. Funcionalidades de presença podem não funcionar corretamente."); // Mensagem genérica
+            console.warn("Ocorreu um erro ao atualizar seu status online. Funcionalidades de presença podem não funcionar corretamente."); // Mensagem genérica
             presenceSetupAttempted = false; // Permite nova tentativa se falhar
             lastStatusUpdateTime = 0; // Reseta o timestamp em caso de erro para permitir nova tentativa imediata
         });
