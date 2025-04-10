@@ -1198,10 +1198,23 @@ function sanitizeInput(input) {
  */
 function isValidInput(input) {
   if (typeof input !== 'string' || input.length === 0) return false;
-  // Regex explícita com caracteres acentuados comuns e letras/números/espaço
-  const allowedCharsRegex = /^[a-zA-Z0-9áàâãäéèêëíìîïóòôõöúùûüçñÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇÑ ]+$/;
-  // Testa diretamente o input original
-  return allowedCharsRegex.test(input);
+  for (let i = 0; i < input.length; i++) {
+    const c = input[i];
+    const code = c.charCodeAt(0);
+    if (
+      !(
+        (code >= 48 && code <= 57) || // 0-9
+        (code >= 65 && code <= 90) || // A-Z
+        (code >= 97 && code <= 122) || // a-z
+        code === 32 || // espaço
+        code === 231 || code === 199 || // ç Ç
+        (code >= 192 && code <= 255) // letras acentuadas comuns
+      )
+    ) {
+      return false;
+    }
+  }
+  return true;
 }
 
 
