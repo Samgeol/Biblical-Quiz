@@ -1198,10 +1198,10 @@ function sanitizeInput(input) {
  */
 function isValidInput(input) {
   if (typeof input !== 'string' || input.length === 0) return false;
-  // Permite letras (incluindo acentuadas comuns em pt-BR), números e espaços.
-  // Remove a necessidade de validar espaço no início/fim pois trim() já faz isso.
+  // Normaliza para NFC para garantir que acentos estejam na forma composta
+  const normalized = input.normalize('NFC');
   const allowedCharsRegex = /^[a-zA-Z0-9áàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ ]+$/;
-  return allowedCharsRegex.test(input);
+  return allowedCharsRegex.test(normalized);
 }
 
 
