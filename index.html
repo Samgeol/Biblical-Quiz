@@ -5,69 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Jogo de Perguntas Bíblicas</title>
 <link rel="stylesheet" href="style.css" />
-<!-- Firebase SDK -->
-<script type="module">
-  // Importações do Firebase
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-  import {
-    getDatabase,
-    ref,
-    push,
-    onValue,
-    set,
-    serverTimestamp, // Importar função necessária
-    onDisconnect,    // Importar função necessária
-    goOffline        // Importar função necessária
-  } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
-
-  // Configuração do Firebase (mantida)
-  const firebaseConfig = {
-    apiKey: "AIzaSyA4Q-OqazZr2k5riI2wS8fIzypsf9ZYaxQ",
-    authDomain: "biblical-questions-a55db.firebaseapp.com",
-    databaseURL: "https://biblical-questions-a55db-default-rtdb.firebaseio.com",
-    projectId: "biblical-questions-a55db",
-    storageBucket: "biblical-questions-a55db.appspot.com",
-    messagingSenderId: "1045554441948",
-    appId: "1:1045554441948:web:6f2d7b45b039da8c994e19"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  window.db = getDatabase(app);
-  window.dbRef = ref(window.db, 'ranking');
-  window.push = push;
-  window.onValue = onValue;
-  window.ref = ref;
-  window.set = set;
-  // Expor as funções adicionais globalmente
-  window.serverTimestamp = serverTimestamp;
-  window.onDisconnect = onDisconnect;
-  window.goOffline = goOffline;
-  window.firebaseInitialized = true; // Flag para indicar que o script de init rodou
-  window.firebaseConnected = false; // Flag para indicar status da conexão
-
-  console.log("Firebase SDK inicializado e funções expostas globalmente.");
-
-  // Listener para verificar status da conexão e definir a flag
-  const connectedRef = ref(window.db, '.info/connected');
-  onValue(connectedRef, (snap) => {
-    // Corrigido: Removida a linha duplicada 'if (snap.val() === true)'
-    if (snap.val() === true) {
-      if (!window.firebaseConnected) { // Define apenas na primeira vez que conecta
-          console.log("Conectado ao Firebase Realtime Database.");
-          window.firebaseConnected = true;
-          // Dispara um evento customizado para notificar script.js (alternativa a callback global)
-          window.dispatchEvent(new CustomEvent('firebaseconnected'));
-      }
-    } else {
-      if (window.firebaseConnected) { // Loga apenas na primeira vez que desconecta
-          console.log("Desconectado do Firebase Realtime Database.");
-          window.firebaseConnected = false;
-      }
-      window.firebaseConnected = false;
-    }
-  });
-
-</script>
+<!-- Firebase Init -->
+<script type="module" src="./firebase-init.js"></script>
 </head>
 <body>
   <header>
@@ -139,6 +78,7 @@
     <p>Feito com ❤️ por Samuel Felipe</p>
   </footer>
 
-  <script src="script.js?v=1.0.1" type="module"></script>
+  <!-- script.js agora importa diretamente do módulo acima -->
+  <script src="script.js?v=1.0.2" type="module"></script> <!-- Atualiza versão cache bust -->
 </body>
 </html>
