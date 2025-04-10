@@ -1,7 +1,7 @@
 // firebase-init.js
 
 // Importações do Firebase SDK
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import {
   getDatabase,
   ref,
@@ -11,7 +11,7 @@ import {
   serverTimestamp,
   onDisconnect,
   goOffline
-} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
 // Importa a função para obter a configuração decodificada
 import { getFirebaseConfig } from './firebase-config.js';

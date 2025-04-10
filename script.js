@@ -1297,9 +1297,15 @@ startButton.addEventListener('click', () => {
 
   tryInitializePresence();
 
-  if (isEditingNames) {
+if (isEditingNames) {
     isEditingNames = false;
     startButton.textContent = 'Começar';
+
+    // Atualiza a saudação imediatamente após salvar o novo nome
+    const questionH2 = document.getElementById('questionText');
+    if (questionH2) {
+        questionH2.textContent = `Que bom te ver, ${playerName}!`;
+    }
 
     // Atualizar o ranking antigo para os novos nomes
     onValue(dbRefRanking, (snapshot) => { // Usa onValue e dbRefRanking importados
