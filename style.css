@@ -468,6 +468,6 @@ footer {
 /* Aumenta a largura da coluna de nome no ranking em telas pequenas */
 @media (max-width: 600px) {
   .ranking-container td:first-child {
-    min-width: 150px;
+    min-width: 300px;
   }
 }
