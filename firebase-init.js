@@ -10,7 +10,8 @@ import {
   set,
   serverTimestamp,
   onDisconnect,
-  goOffline
+  goOffline,
+  enablePersistence
 } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
 // Importa a função para obter a configuração decodificada
@@ -21,6 +22,12 @@ const app = initializeApp(getFirebaseConfig());
 
 // Exporta as funções e objetos necessários para outros módulos
 const db = getDatabase(app);
+
+// Ativa persistência offline para reduzir leituras repetidas
+enablePersistence(db).catch((err) => {
+  console.warn("Persistência offline não pôde ser ativada:", err);
+});
+
 const dbRefRanking = ref(db, 'ranking'); // Referência específica do ranking
 let firebaseConnected = false; // Mantém o status localmente
 

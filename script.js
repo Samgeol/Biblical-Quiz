@@ -1201,14 +1201,16 @@ function isValidInput(input) {
   for (let i = 0; i < input.length; i++) {
     const c = input[i];
     const code = c.charCodeAt(0);
-    if (
+if (
       !(
         (code >= 48 && code <= 57) || // 0-9
         (code >= 65 && code <= 90) || // A-Z
         (code >= 97 && code <= 122) || // a-z
         code === 32 || // espaço
         code === 231 || code === 199 || // ç Ç
-        (code >= 192 && code <= 255) // letras acentuadas comuns
+        (code >= 192 && code <= 255) || // letras acentuadas comuns
+        code === 9836 || // ♬
+        code === 12484   // ツ
       )
     ) {
       return false;
@@ -1639,57 +1641,51 @@ document.getElementById('retryButton').addEventListener('click', () => {
   window.location.reload(); // Recarrega a página para reiniciar o fluxo
 });
 
-function loadRanking() {
-  onValue(dbRefRanking, (snapshot) => { // Usa onValue e dbRefRanking importados
+let rankingUnsubscribe = null;
+
+function startRankingListener() {
+  if (rankingUnsubscribe) return; // já está ouvindo
+
+  rankingUnsubscribe = onValue(dbRefRanking, (snapshot) => {
     const data = snapshot.val();
     const rankingArray = [];
 
     for (let key in data) {
-      // Adiciona a chave do Firebase ao objeto para referência, se necessário
-      // Adiciona a chave do Firebase e garante que os campos essenciais existam
       if (data[key] && data[key].name && data[key].comum && data[key].userId !== undefined && data[key].score !== undefined && data[key].time !== undefined) {
-          rankingArray.push({ ...data[key], firebaseKey: key });
+        rankingArray.push({ ...data[key], firebaseKey: key });
       } else {
-          console.warn("Entrada de ranking inválida ou incompleta ignorada:", key, data[key]);
+        console.warn("Entrada de ranking inválida ou incompleta ignorada:", key, data[key]);
       }
     }
 
     rankingArray.sort((a, b) => {
       if (b.score !== a.score) {
-        return b.score - a.score; // mais acertos primeiro
+        return b.score - a.score;
       } else {
-        return a.time - b.time; // menor tempo primeiro
+        return a.time - b.time;
       }
     });
 
-    // Obter posição anterior e timestamp do localStorage
     let previousInfo = JSON.parse(localStorage.getItem('playerRankingInfo') || '{}');
     const now = Date.now();
 
-    // Encontrar posição atual do jogador pelo userId
     let currentPlayerIndex = -1;
-    if (userId) { // Busca pelo userId se ele existir
-        currentPlayerIndex = rankingArray.findIndex(
-            p => p.userId === userId
-        );
+    if (userId) {
+      currentPlayerIndex = rankingArray.findIndex(p => p.userId === userId);
     }
-
 
     let showArrow = false;
 
     if (currentPlayerIndex !== -1) {
-      // Compara com a posição anterior salva para o userId atual
       if (previousInfo.userId === userId) {
-        // Se passou mais de 1 hora, não mostrar seta (ou outra lógica de tempo)
         if (now - previousInfo.timestamp < 3600000) {
           if (currentPlayerIndex < previousInfo.position) {
             showArrow = true;
           }
         }
       }
-      // Atualizar info no localStorage com userId
       localStorage.setItem('playerRankingInfo', JSON.stringify({
-        userId: userId, // Salva userId para comparação futura
+        userId: userId,
         position: currentPlayerIndex,
         timestamp: now
       }));
@@ -1698,41 +1694,36 @@ function loadRanking() {
     rankingBody.innerHTML = '';
     rankingArray.forEach((player, index) => {
       let medalImg = 'participacao.png';
-      if(index === 0) medalImg = 'ouro.png';
-      else if(index === 1) medalImg = 'prata.png';
-      else if(index === 2) medalImg = 'bronze.png';
+      if (index === 0) medalImg = 'ouro.png';
+      else if (index === 1) medalImg = 'prata.png';
+      else if (index === 2) medalImg = 'bronze.png';
 
-      // Verifica se 'name' e 'comum' existem antes de tentar acessar 'length'
-      // Sanitiza os nomes ANTES de exibi-los
       const sanitizedName = sanitizeInput(player.name || '');
       const sanitizedComum = sanitizeInput(player.comum || '');
 
-      // Trunca nomes longos APÓS sanitizar
       const displayName = sanitizedName.length > 20 ? sanitizedName.substring(0, 20) + '...' : sanitizedName || 'Nome inválido';
       const displayComum = sanitizedComum.length > 20 ? sanitizedComum.substring(0, 20) + '...' : sanitizedComum || 'Comum inválida';
 
-      const arrow = (showArrow && index === currentPlayerIndex) ? ' <span style="color:green;">▲</span>' : ''; // Usando ▲ para seta
+      const arrow = (showArrow && index === currentPlayerIndex) ? ' <span style="color:green;">▲</span>' : '';
 
       const tr = document.createElement('tr');
 
-      // Cria células usando textContent para segurança
       const tdRank = document.createElement('td');
       const img = document.createElement('img');
       img.src = medalImg;
       img.alt = 'medalha';
       img.className = 'medalha';
       tdRank.appendChild(img);
-      // Adiciona o nome e a seta (a seta é HTML seguro)
-      tdRank.innerHTML += ` ${displayName}${arrow}`; // innerHTML seguro aqui pois displayName é sanitizado e arrow é controlado
+      tdRank.innerHTML += ` ${displayName}${arrow}`;
 
       const tdComum = document.createElement('td');
-      tdComum.textContent = displayComum; // Usa textContent
+      tdComum.textContent = displayComum;
 
       const tdScore = document.createElement('td');
-      tdScore.textContent = player.score !== undefined ? player.score : '-'; // Usa textContent
+      tdScore.textContent = player.score !== undefined ? player.score : '-';
 
       const tdTime = document.createElement('td');
-      tdTime.textContent = player.time !== undefined ? player.time : '-'; // Usa textContent
+      tdTime.textContent = player.time !== undefined ? player.time : '-';
 
       tr.appendChild(tdRank);
       tr.appendChild(tdComum);
@@ -1742,29 +1733,38 @@ function loadRanking() {
       rankingBody.appendChild(tr);
     });
   }, (error) => {
-      console.error("Erro ao carregar ranking:", error);
-      alert("Não foi possível carregar o ranking. Verifique sua conexão.");
+    console.error("Erro ao carregar ranking:", error);
+    alert("Não foi possível carregar o ranking. Verifique sua conexão.");
   });
+}
+
+function stopRankingListener() {
+  if (rankingUnsubscribe) {
+    rankingUnsubscribe();
+    rankingUnsubscribe = null;
+  }
 }
 
 const toggleRankingBtn = document.getElementById('toggleRanking');
 const rankingContainer = document.querySelector('.ranking-container');
 
+
 toggleRankingBtn.addEventListener('click', () => {
   if (rankingContainer.style.display === 'none' || rankingContainer.style.display === '') {
     rankingContainer.style.display = 'block';
     toggleRankingBtn.textContent = 'Esconder Ranking';
+    startRankingListener();
   } else {
     rankingContainer.style.display = 'none';
     toggleRankingBtn.textContent = 'Mostrar Ranking';
+    stopRankingListener();
   }
 });
 
 // Evento do botão "Começar" da saudação personalizada
 // (Removido pois não existe mais modal)
 
-// Carregar ranking ao abrir
-loadRanking();
+// Removido loadRanking() automático para evitar listener fixo
 
 
 // --- Listener para o evento de conexão do Firebase ---

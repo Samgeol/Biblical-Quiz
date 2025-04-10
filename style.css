@@ -83,7 +83,7 @@ main {
 }
 
 .question-container.wrong-container {
-  background-color: #ffb2b2;
+  background-color: #ff1a1a;
 }
 
 .question-container h2 {
@@ -196,7 +196,7 @@ main {
 }
 
 .options button.wrong {
-  background-color: #ffb2b2;
+  background-color: #ff1a1a;
 }
 
 .ranking-container {
@@ -463,4 +463,11 @@ footer {
 #resumeStartButton:hover {
   background: linear-gradient(135deg, #42a5f5, #1565c0);
   transform: scale(1.05);
+}
+
+/* Aumenta a largura da coluna de nome no ranking em telas pequenas */
+@media (max-width: 600px) {
+  .ranking-container td:first-child {
+    min-width: 150px;
+  }
 }
