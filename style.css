@@ -405,6 +405,9 @@ footer {
   .toggle-ranking {
     display: none;
   }
+  .ranking-container {
+    display: block; /* Garante que seja visível por padrão em telas grandes */
+  }
 }
 
 @media (max-width: 480px) {
