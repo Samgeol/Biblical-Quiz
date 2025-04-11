@@ -69,7 +69,8 @@ if (
         code === 231 || code === 199 || // ç Ç
         (code >= 192 && code <= 255) || // letras acentuadas comuns
         code === 9836 || // ♬
-        code === 12484   // ツ
+        code === 12484 || // ツ
+        code === 10048   // ❀ (Flower Outline)
       )
     ) {
       return false;
